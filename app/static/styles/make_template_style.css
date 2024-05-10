@@ -1,0 +1,37 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+.image_container{
+    height: 100vh;
+    width: auto;
+    display: flex;
+}
+
+.invoice_image{
+    height: 100%;
+    width: auto;
+}
+
+.label_container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+table{
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+#labelsTable{
+    border: 1px solid grey;
+    text-align: center;
+}
+
+#boxTable{
+    border: 1px solid grey;
+    text-align: center;
+}
