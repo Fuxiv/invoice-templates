@@ -1,10 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>home screen</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='/styles/home_page_style.css') }}">
+    <script defer>
+        let templates = {{ templates | tojson }}
+        let config = {{ config | tojson }}
+    </script>
+    <script src="{{ url_for('static', filename='/scripts/home_page.js') }}" defer></script>
 </head>
 <body>
-$END$
+<div id="selectionContainer">
+    <form method=post enctype=multipart/form-data id="fileForm">
+        <input type=file name=file>
+        <input type=submit value="Make new template" name="make_new">
+        <input type=submit value=Recognize name="recognize">
+    </form>
+</div>
+<div id="contentContainer">
+    <div id="templatesContainer">
+        <button onclick="saveTemplates()" style="width: 100%">Save templates</button>
+        <table id="templatesTable"></table>
+    </div>
+    <div id="configContainer">
+        {# regex, field names #}
+        <button onclick="saveConfig()" style="width: 100%">Save config</button>
+        <table id="regexTable">
+            <tr>
+                <th>Name</th>
+                <th>Regex</th>
+                <th>Retrieve</th>
+                <th>Type</th>
+            </tr>
+        </table>
+        <button onclick="createRegex()" style="width: 100%">Add regex</button>
+        <table id="fieldsTable">
+            <tr>
+                <th>Field values</th>
+            </tr>
+        </table>
+        <button onclick="createField()">Add field</button>
+    </div>
+</div>
 </body>
 </html>

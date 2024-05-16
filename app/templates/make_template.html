@@ -5,22 +5,25 @@
     <title>create invoice template</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='/styles/make_template_style.css') }}">
     <script defer>
-        data_frame =  {{ data_frame | tojson }}
+        let data_frame =  {{ data_frame | tojson }}
+        let invoice_name = {{ invoice_name | tojson }}
+        let templateNumber = {{ template_number | tojson }}
+        let templates = {{ data_json | tojson }}
+        let config = {{ config | tojson }}
 
-
-        invoice_name = {{ invoice_name | tojson }}
     </script>
     <script src="{{ url_for('static', filename='/scripts/make_template.js') }}" defer></script>
 </head>
 <body>
+<div id="previewBox" style="background: #ff63ed; position: absolute"></div>
 <div class="image_container">
-    <img class="invoice_image" src="{{ url_for('static', filename='/invoices/' + invoice_name) }}" alt="invoice">
+    <img class="invoice_image" src="{{ url_for('static', filename='/invoices/' + invoice_name) }}" alt="invoice" onclick="resetBox()">
     <div id="box" style="background: aqua; position: absolute; opacity: 0.5"></div>
     <div class="labels_container">
         <table id="labelsTable">
             <tr>
                 <th>Field name</th>
-                <th>Placeholder</th>
+                <th>Regex</th>
                 <th>Left</th>
                 <th>Top</th>
                 <th>Width</th>
@@ -32,7 +35,7 @@
         <table id="boxTable">
             <tr>
                 <th>Field name</th>
-                <th>Placeholder</th>
+                <th>Regex</th>
                 <th>Max Left</th>
                 <th>Max Right</th>
                 <th>Max Top</th>
@@ -40,6 +43,9 @@
                 <th>Action</th>
             </tr>
         </table>
+
+        <label for="templateName">template name: </label><input type="text" id="templateName"><br>
+
         <button class="export_labels" onclick="export_labels()">export to json</button>
         <div id="box_selected">box selected:</div>
         <button onclick="addBox()">add box</button>

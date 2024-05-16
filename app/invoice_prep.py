@@ -5,7 +5,7 @@ import cv2
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 
-def get_data_frame(image_path):
+def get_data_frame_json(image_path):
     invoice = cv2.imread(image_path)
     invoice_data = pytesseract.image_to_data(invoice)
     data_list = list(map(lambda x: x.split('\t'), invoice_data.split('\n')))
