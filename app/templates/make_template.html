@@ -5,7 +5,7 @@
     <title>create invoice template</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='/styles/make_template_style.css') }}">
     <script defer>
-        let data_frame =  {{ data_frame | tojson }}
+        let data_frame = {{ data_frame | tojson }}
         let invoice_name = {{ invoice_name | tojson }}
         let templateNumber = {{ template_number | tojson }}
         let templates = {{ data_json | tojson }}
@@ -17,7 +17,8 @@
 <body>
 <div id="previewBox" style="background: #ff63ed; position: absolute"></div>
 <div class="image_container">
-    <img class="invoice_image" src="{{ url_for('static', filename='/invoices/' + invoice_name) }}" alt="invoice" onclick="resetBox()">
+    <img class="invoice_image" src="{{ url_for('static', filename='/invoices/' + invoice_name) }}" alt="invoice"
+         onclick="resetBox()">
     <div id="box" style="background: aqua; position: absolute; opacity: 0.5"></div>
     <div class="labels_container">
         <table id="labelsTable">
@@ -51,6 +52,7 @@
         <button onclick="addBox()">add box</button>
         <div id="max">left, right, top, bottom</div>
     </div>
+    <button id="homeButton" onclick="window.location.href='{{ url_for('pages.index')}}'" style="height: 50px; width: 100px">Home</button>
 </div>
 </body>
 </html>

@@ -127,6 +127,7 @@ if (templates && templateNumber) {
             option.text = regexes[j].name
             regexSelect.appendChild(option)
         }
+        regexSelect.value = currentBox.regex
         cell = row.insertCell(1)
         cell.appendChild(regexSelect)
 

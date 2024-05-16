@@ -1,43 +1,43 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-#selectionContainer{
+#selectionContainer {
     width: 100%;
     height: 100px;
 }
 
-#contentContainer{
+#contentContainer {
     display: flex;
     width: 100%;
     height: 500px;
 }
 
-#templatesContainer, #configContainer{
+#templatesContainer, #configContainer {
     width: 50%;
 }
 
-#templatesTable > tbody > tr > td{
+#templatesTable > tbody > tr > td {
     border: 1px solid black;
 }
 
-#templatesTable{
+#templatesTable {
     border-collapse: collapse;
 }
 
-#templatesTable, #regexTable{
+#templatesTable, #regexTable {
     width: 100%;
     text-align: center;
 }
 
-#fieldsTable{
+#fieldsTable {
     width: 50%;
     align-self: center;
 }
 
-#configContainer{
+#configContainer {
     display: flex;
     flex-direction: column;
 }
