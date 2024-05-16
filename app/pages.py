@@ -77,9 +77,9 @@ def recognition(invoice_name):
     with open("app/static/templates.json", "r") as file:
         data_json = json.load(file)
     data_frame = reco.data_frame_prep("app/static/invoices/" + invoice_name)
-    return reco.read_with_template(data_json[int(template_number)], data_frame)
-
-
+    output = reco.read_with_template(data_json[int(template_number)], data_frame)
+    output.update(reco.read_with_template_box_regex(data_json[int(template_number)], data_frame))
+    return output
 @bp.route("/templates")
 def get_templates():
     with open("app/static/templates.json", "r") as file:
