@@ -2,7 +2,7 @@ import pandas as pd
 import pytesseract
 import cv2
 
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+# pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 
 def get_data_frame_json(image_path):

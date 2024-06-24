@@ -4,10 +4,13 @@ import pytesseract
 import pandas as pd
 import json
 
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+# pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 with open("app/static/config.json", 'r') as file:
     config = json.load(file)
+
+with open("app/static/templates.json", 'r') as file:
+    templates = json.load(file)
 
 
 def data_frame_prep(invoice_path):
@@ -25,7 +28,8 @@ def data_frame_prep(invoice_path):
 def read_with_template(template, df):
     output = dict()
     for index, row in df.iterrows():
-        row["left"], row["top"], row["width"], row["height"] = int(row["left"]), int(row["top"]), int(row["width"]), int(row["height"])
+        row["left"], row["top"], row["width"], row["height"] = int(row["left"]), int(row["top"]), int(
+            row["width"]), int(row["height"])
         coord_x = row["left"] + (row["width"] / 2)
         coord_y = row["top"] + (row["height"] / 2)
         # get labels
@@ -34,16 +38,16 @@ def read_with_template(template, df):
             label_y = label["top"] + (label["height"] / 2)
             if label_x - 3 < coord_x < label_x + 3 and label_y - 3 < coord_y < label_y + 3:
                 if label["regex"] != "none":
-                    currentRegex = {}
+                    current_regex = {}
                     for y in range(len(config["regex"])):
                         if config["regex"][y]["name"] == label["regex"]:
-                            currentRegex = config["regex"][y]
+                            current_regex = config["regex"][y]
                             break
-                    if currentRegex["name"] not in output.keys():
-                        output[currentRegex["name"]] = []
-                        output[currentRegex["name"]].append(re.search(currentRegex["retrieve"], row["text"]).group())
+                    if current_regex["name"] not in output.keys():
+                        output[current_regex["name"]] = []
+                        output[current_regex["name"]].append(re.search(current_regex["retrieve"], row["text"]).group())
                     else:
-                        output[currentRegex["name"]].append(re.search(currentRegex["retrieve"], row["text"]).group())
+                        output[current_regex["name"]].append(re.search(current_regex["retrieve"], row["text"]).group())
                     break
 
                 if label["field_name"] not in output.keys():
@@ -68,23 +72,32 @@ def read_with_template_box_regex(template, df):
     for box in template["boxes"]:
         box_text = ''
         if box["regex"] != "none":
-            currentRegex = {}
+            current_regex = {}
             for y in range(len(config["regex"])):
                 if config["regex"][y]["name"] == box["regex"]:
-                    currentRegex = config["regex"][y]
+                    current_regex = config["regex"][y]
                     break
-            if currentRegex:
+            if current_regex:
                 for index, row in df.iterrows():
-                    row["left"], row["top"], row["width"], row["height"] = int(row["left"]), int(row["top"]), int(row["width"]), int(row["height"])
+                    row["left"], row["top"], row["width"], row["height"] = int(row["left"]), int(row["top"]), int(
+                        row["width"]), int(row["height"])
                     coord_x = row["left"] + (row["width"] / 2)
                     coord_y = row["top"] + (row["height"] / 2)
                     if box["left"] < coord_x < box["right"] and box["top"] < coord_y < box["bottom"]:
                         box_text += row["text"] + ' '
-                box_text = re.match(currentRegex["regex"], box_text).group()
+                box_text = re.match(current_regex["regex"], box_text).group()
 
-                if currentRegex["name"] not in output.keys():
-                    output[currentRegex["name"]] = []
-                    output[currentRegex["name"]].append(re.search(currentRegex["retrieve"], box_text).group())
+                if current_regex["name"] not in output.keys():
+                    output[current_regex["name"]] = []
+                    output[current_regex["name"]].append(re.search(current_regex["retrieve"], box_text).group())
                 else:
-                    output[currentRegex["name"]].append(re.search(currentRegex["retrieve"], box_text).group())
+                    output[current_regex["name"]].append(re.search(current_regex["retrieve"], box_text).group())
     return output
+
+
+def find_matching_templates(df):
+    matching_templates = []
+    for temp in templates:
+        if read_with_template(temp, df):
+            matching_templates.append(temp["tempName"])
+    return matching_templates
